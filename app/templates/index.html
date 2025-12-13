@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Processor</title>
+    <link rel="stylesheet" href="{{ url_for('style', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>AI Art Recommender</h1>
+        <p>Upload an image to find similar items </p>
+    </header>
+
+    <div class="card upload-card">
+        <form action="/predict" method="post" enctype="multipart/form-data" id="upload-form">
+            <label for="upload" class="drop-zone" id="drop-area">
+                <div class="drop-zone-content">
+                    <span class="icon">📁</span>
+                    <p>Click or Drag & Drop Image Here</p>
+                    <input type="file" name="image" id="upload" accept="image/*" hidden>
+                </div>
+                <img id="previewImg" class="preview-thumb" {% if uploaded %}src="{{ url_for('uploaded_file', filename=uploaded) }}" style="display:block;"{% else %}style="display:none;"{% endif %}>
+            </label>
+            
+            <button type="submit" class="btn-primary" id="submit-btn">
+                <span>Recommend Image</span>
+            </button>
+        </form>
+
+        <div id="loader" class="loader" style="display:none;">
+            <div class="spinner"></div>
+            <p>Recommending your image...</p>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    {% if results %}
+    <section class="results-section">
+        <h3>Recommended Similar Images</h3>
+        <div class="grid">
+            {% for image in results %}
+            <div class="result-card">
+                <img src="{{ url_for('result_file', filename=image) }}" class="result-img">
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+
+<script>
+    const uploadInput = document.getElementById("upload");
+    const previewImg = document.getElementById("previewImg");
+    const dropArea = document.getElementById("drop-area");
+    const form = document.getElementById("upload-form");
+    const loader = document.getElementById("loader");
+
+    // Preview image locally
+    uploadInput.onchange = function(e) {
+        if(e.target.files.length > 0) {
+            const src = URL.createObjectURL(e.target.files[0]);
+            previewImg.src = src;
+            previewImg.style.display = "block";
+            document.querySelector(".drop-zone-content").style.display = "none";
+            dropArea.classList.add("has-image");
+        }
+    }
+
+    // Drag and drop functionality
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('dragover');
+    });
+
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('dragover');
+    });
+
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            uploadInput.files = files;
+            const event = new Event('change', { bubbles: true });
+            uploadInput.dispatchEvent(event);
+        }
+    });
+
+    // Show uploaded image in preview if results exist
+    {% if uploaded %}
+    previewImg.style.display = "block";
+    document.querySelector(".drop-zone-content").style.display = "none";
+    dropArea.classList.add("has-image");
+    {% endif %}
+
+    // Show loader on submit
+    form.onsubmit = function() {
+        loader.style.display = "block";
+        document.getElementById("submit-btn").style.display = "none";
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Art Recommendation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 50px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #111827;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 50px;
+            line-height: 1.7;
+        }
+
+        .feature-box {
+            background: #f9fafb;
+            padding: 24px;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            border-left: 3px solid #3b82f6;
+            transition: background 0.2s ease;
+        }
+
+        .feature-box:hover {
+            background: #f3f4f6;
+        }
+
+        .feature-box h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .feature-box p {
+            font-size: 0.95rem;
+            color: #6b7280;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s ease, transform 0.1s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>AI Art Recommendation System</h1>
+            <p class="subtitle">
+                Art lovers often explore pieces that match their taste.  
+                When we like one artwork, our curiosity naturally leads us to similar styles, themes, or colors.  
+                This AI Art Recommendation System is designed exactly for that purpose —  
+                <strong>to help people discover new art that aligns with their unique preferences.</strong>
+            </p>
+
+            <div class="feature-box">
+                <h3>🎨 Understands Your Art Taste</h3>
+                <p>
+                    When you like an artwork, the AI analyzes its style, tone, colors, and patterns to understand what attracts you.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>🔍 Finds Similar Art Instantly</h3>
+                <p>
+                    The system recommends new artwork similar to what you like — making art discovery easy and exciting.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>❤️ Made for People Who Love Art</h3>
+                <p>
+                    Whether you're an artist, collector, or someone who simply enjoys beauty, this AI helps you explore art in a smarter way.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <h3>🤖 Using AI + Deep Learning</h3>
+                <p>
+                    The engine compares thousands of images and finds the best matches based on advanced ML techniques.
+                </p>
+            </div>
+
+            <p class="footer">AI-powered discovery for every art lover</p>
+
+            <div class="button-container">
+                <a href="/recommend" class="cta-button">
+                    Let's Dive Into Your Passion Art Recommendation →
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
