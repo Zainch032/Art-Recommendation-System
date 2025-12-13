@@ -4,15 +4,17 @@ from recommend import recommend
 import shutil
 
 app = Flask(__name__)
-# Get the directory where this script is located
-script_dir = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = os.path.join(script_dir, "static/uploads")
-RESULT_FOLDER = os.path.join(script_dir, "static/results")
-STYLE_FOLDER = os.path.join(script_dir, "style")
+
+# === Paths ===
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "static/uploads")
+RESULT_FOLDER = os.path.join(BASE_DIR, "static/results")
+STYLE_FOLDER = os.path.join(BASE_DIR, "style")
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULT_FOLDER, exist_ok=True)
 
+# === Routes ===
 @app.route("/")
 def home():
     return render_template("start.html")
@@ -27,19 +29,19 @@ def predict():
         return "No file uploaded."
 
     file = request.files["image"]
-    
-    if file.filename is None or file.filename == "":
+    if not file.filename:
         return "No file selected."
-    
-    filename = file.filename  # Type narrowing: filename is now guaranteed to be str
+
+    filename = file.filename
     filepath = os.path.join(UPLOAD_FOLDER, filename)
     file.save(filepath)
 
     # Run recommendation model
     results = recommend(filepath)
 
-    # Clear old results
-    shutil.rmtree(RESULT_FOLDER)
+    # Clear old results safely
+    if os.path.exists(RESULT_FOLDER):
+        shutil.rmtree(RESULT_FOLDER)
     os.makedirs(RESULT_FOLDER)
 
     output_images = []
@@ -48,7 +50,11 @@ def predict():
         shutil.copy(img, new_path)
         output_images.append(os.path.basename(img))
 
-    return render_template("index.html", uploaded=filename, results=output_images)
+    return render_template(
+        "index.html",
+        uploaded=filename,
+        results=output_images
+    )
 
 @app.route("/uploads/<filename>")
 def uploaded_file(filename):
@@ -62,5 +68,7 @@ def result_file(filename):
 def style(filename):
     return send_from_directory(STYLE_FOLDER, filename)
 
+# === Railway-compatible run ===
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
